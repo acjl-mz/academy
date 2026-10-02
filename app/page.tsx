@@ -1,21 +1,67 @@
-const categories = ['Excel & Dados','Contabilidade','Fiscalidade','Recursos Humanos','Gestão','Marketing','Vendas','Finanças','Power BI','Tecnologia','Administração','Empreendedorismo'];
+const categories = [
+  ['Excel & Dados','Transformar informação em decisões.'],
+  ['Contabilidade','Prática financeira para a rotina empresarial.'],
+  ['Fiscalidade','Competências para processos e obrigações fiscais.'],
+  ['Recursos Humanos','Pessoas, processos e ferramentas de gestão.'],
+  ['Gestão','Organizar e gerir melhor o negócio.'],
+  ['Marketing','Estratégia, comunicação e execução.'],
+  ['Vendas','Processos e técnicas comerciais.'],
+  ['Finanças','Análise financeira aplicada à decisão.'],
+];
 const skills = [
-  ['Excel para Gestão Financeira','Finanças','Intermédio','6 semanas','1 500 MT'],
-  ['Processamento de Salários','Recursos Humanos','Prático','4 semanas','1 200 MT'],
-  ['Contabilidade para Pequenas Empresas','Contabilidade','Fundamentos','5 semanas','1 300 MT'],
-  ['Power BI para Decisão','Excel & Dados','Intermédio','6 semanas','1 800 MT'],
-  ['Gestão Fiscal na Prática','Fiscalidade','Prático','4 semanas','1 500 MT'],
-  ['Marketing Digital para Negócios','Marketing','Intermédio','5 semanas','1 400 MT']
+  ['excel-gestao-financeira','Excel para Gestão Financeira','Finanças','Intermédio','6 semanas','1 500 MT'],
+  ['processamento-salarios','Processamento de Salários','Recursos Humanos','Prático','4 semanas','1 200 MT'],
+  ['contabilidade-pequenas-empresas','Contabilidade para Pequenas Empresas','Contabilidade','Fundamentos','5 semanas','1 300 MT'],
+  ['power-bi-decisao','Power BI para Decisão','Excel & Dados','Intermédio','6 semanas','1 800 MT'],
 ];
 
-export default function Home(){return <>
-  <header className="nav"><div className="container nav-inner"><a className="brand" href="#"><span>Skill</span>Hub <small>by ALINVEST</small></a><nav className="nav-links"><a href="#skills">Skills</a><a href="#como-funciona">Como funciona</a><a href="#empresas">Para empresas</a><a href="#sobre">Sobre</a></nav><div className="nav-actions"><a className="btn btn-ghost" href="/login">Entrar</a><a className="btn btn-primary" href="/signup">Começar</a></div></div></header>
-  <main>
-    <section className="hero"><div className="container hero-grid"><div><div className="eyebrow">Aprender · Praticar · Demonstrar</div><h1>Competências que se provam na prática.</h1><p>Aprenda skills profissionais com exercícios reais, orientação de mentores e certificação verificável. Desenvolva competências que pode demonstrar no trabalho.</p><div className="hero-actions"><a className="btn btn-primary" href="/skills">Explorar skills</a><a className="btn btn-ghost" href="#como-funciona">Como funciona</a></div></div><div className="hero-card"><div className="eyebrow" style={{color:'#1769FF'}}>EXPERIÊNCIA SKILLHUB</div><h3 style={{fontSize:24,margin:'0 0 22px'}}>O seu percurso começa aqui.</h3><div className="mini-row"><span>Excel para Gestão Financeira</span><span className="badge">Em curso</span></div><div style={{padding:'18px 0 8px',fontSize:12,color:'#667085'}}>PROGRESSO · 72%</div><div className="progress"><span/></div><div className="mini-row"><span>Exercício prático</span><strong>8/10</strong></div><div className="mini-row"><span>Certificação</span><span className="badge">Em progresso</span></div></div></div></section>
-    <section className="section" id="como-funciona"><div className="container"><div className="section-head"><div><div className="eyebrow" style={{color:'#1769FF'}}>COMO FUNCIONA</div><h2>Aprenda fazendo.</h2><p className="section-intro">O SkillHub foi pensado para transformar formação em capacidade demonstrável — não apenas em horas assistidas.</p></div></div><div className="grid-4">{[['01','Escolha uma skill','Encontre competências alinhadas ao seu trabalho e aos seus objetivos.'],['02','Aprenda com orientação','Conteúdo estruturado e acompanhamento de mentores profissionais.'],['03','Resolva exercícios reais','Aplique o que aprendeu em desafios práticos e receba feedback.'],['04','Construa o seu perfil','Conquiste certificações verificáveis e demonstre o que sabe fazer.']].map(([n,t,d])=><div className="card" key={n}><div className="icon">{n}</div><h3>{t}</h3><p>{d}</p></div>)}</div></div></section>
-    <section className="section skills" id="skills"><div className="container"><div className="section-head"><div><div className="eyebrow" style={{color:'#1769FF'}}>CATÁLOGO DE SKILLS</div><h2>Competências para o mundo profissional.</h2><p className="section-intro">Formação prática em áreas que fazem parte do dia a dia das empresas.</p></div><a className="btn btn-ghost" href="/skills">Ver catálogo</a></div><div className="skill-grid">{skills.map(([title,cat,level,duration,price])=><article className="skill-card" key={title}><div className="skill-top"><span className="badge">{cat}</span></div><div className="skill-body"><h3>{title}</h3><div className="skill-meta"><span>{level}</span><span>·</span><span>{duration}</span><span>·</span><span>{price}</span></div><a className="btn btn-dark" href="/skills">Ver skill</a></div></article>)}</div></div></section>
-    <section className="section"><div className="container"><div className="section-head"><div><div className="eyebrow" style={{color:'#1769FF'}}>ÁREAS DE APRENDIZAGEM</div><h2>Explore por competência.</h2></div></div><div className="grid-4">{categories.map((c,i)=><a className="card" href="/skills" key={c}><div className="icon">{String(i+1).padStart(2,'0')}</div><h3>{c}</h3><p>Skills práticas e exercícios aplicados.</p></a>)}</div></div></section>
-    <section className="section" id="empresas"><div className="container"><div className="cta"><div><h2>Talento que pode ser demonstrado.</h2><p>Empresas podem criar desafios, descobrir competências e conhecer participantes através do seu trabalho prático.</p></div><a className="btn btn-ghost" href="/empresa">Conhecer solução para empresas</a></div></div></section>
+export default function Home(){
+  return <div>
+    <header className="site-header"><div className="container nav">
+      <a className="brand" href="/"><span className="brand-mark">S</span><span>Skill<span>Hub</span><small>by ALINVEST</small></span></a>
+      <nav><a href="/skills">Explorar skills</a><a href="#como-funciona">Como funciona</a><a href="#empresas">Para empresas</a></nav>
+      <div className="nav-actions"><a className="btn btn-text" href="/login">Entrar</a><a className="btn btn-primary" href="/signup">Começar</a></div>
+    </div></header>
+
+    <main>
+      <section className="hero"><div className="container hero-grid">
+        <div><div className="eyebrow">FORMAÇÃO PROFISSIONAL · MOÇAMBIQUE</div>
+          <h1>Aprenda competências que <em>fazem diferença</em> no trabalho.</h1>
+          <p className="hero-lead">Formação prática, exercícios baseados em situações reais, orientação de mentores e certificação que comprova aquilo que sabe fazer.</p>
+          <div className="hero-actions"><a className="btn btn-primary btn-large" href="/skills">Explorar competências →</a><a className="btn btn-light btn-large" href="#como-funciona">Como funciona</a></div>
+          <div className="hero-proof"><span>✓ Exercícios práticos</span><span>✓ Feedback humano</span><span>✓ Certificação verificável</span></div>
+        </div>
+        <div className="hero-visual"><div className="dashboard-window">
+          <div className="window-top"><i/><i/><i/><small>skillhub.alinvest</small></div>
+          <div className="window-body"><aside><strong>Skill<span>Hub</span></strong><b>▦ &nbsp; O meu percurso</b><b>◇ &nbsp; Skills</b><b>□ &nbsp; Certificados</b></aside>
+            <div className="mock-content"><div className="mock-top">O meu percurso <i>U</i></div><h3>Bom dia, Utilizador.</h3><small>Continue de onde parou.</small>
+              <div className="mock-course"><span>EX</span><div><small>FINANÇAS · INTERMÉDIO</small><strong>Excel para Gestão Financeira</strong><div className="mock-progress"><i/></div><small>72% concluído · Próximo: Análise de desvios</small></div></div>
+              <div className="mock-row"><div><small>SKILL SCORE</small><strong>78</strong></div><div><small>EXERCÍCIOS</small><strong>8/12</strong></div><div><small>CERTIFICADOS</small><strong>01</strong></div></div>
+            </div>
+          </div>
+        </div><div className="floating-card feedback">✓ <span><b>Exercício avaliado</b><small>Feedback do mentor disponível</small></span></div><div className="floating-card cert">✦ <span><b>Certificado</b><small>Verificação pública</small></span></div></div>
+      </div></section>
+
+      <section className="trust-strip"><div className="container"><span>UMA NOVA FORMA DE DEMONSTRAR COMPETÊNCIA</span><div><b>Aprender</b> → <b>Praticar</b> → <b>Receber feedback</b> → <b>Demonstrar</b></div></div></section>
+
+      <section className="section" id="como-funciona"><div className="container">
+        <div className="intro-row"><div><div className="eyebrow">COMO FUNCIONA</div><h2>Mais do que assistir.<br/><em>Aprender fazendo.</em></h2></div><p>O SkillHub aproxima a formação da realidade profissional. Cada percurso combina conhecimento, prática e evidência de competência.</p></div>
+        <div className="steps">{[['01','Escolha uma competência','Encontre uma skill alinhada ao seu trabalho, carreira ou próximo desafio.'],['02','Aprenda com orientação','Conteúdo estruturado e acompanhamento de profissionais.'],['03','Resolva casos práticos','Aplique o conhecimento em exercícios próximos da realidade.'],['04','Receba feedback e prove','Um mentor avalia o seu trabalho e ajuda a construir evidências.']].map(([n,t,d])=><article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div>
+      </div></section>
+
+      <section className="section muted"><div className="container"><div className="section-head"><div><div className="eyebrow">EXPLORE O CATÁLOGO</div><h2>Competências para o mundo profissional.</h2></div><a href="/skills" className="text-link">Ver todas →</a></div>
+        <div className="catalog">{skills.map(([slug,title,cat,level,duration,price],i)=><a className="skill-card" href={`/skills/${slug}`} key={slug}><div className="skill-cover"><strong>{['EX','RH','CT','BI'][i]}</strong><small>{cat}</small></div><div className="skill-body"><div className="meta">{level} · {duration}</div><h3>{title}</h3><p>Aprendizagem aplicada com exercícios e acompanhamento.</p><div className="card-foot"><b>{price}</b><span>Ver skill →</span></div></div></a>)}</div>
+      </div></section>
+
+      <section className="section"><div className="container"><div className="section-head"><div><div className="eyebrow">ÁREAS DE COMPETÊNCIA</div><h2>Encontre onde quer crescer.</h2></div></div><div className="categories">{categories.map(([name,desc],i)=><a href="/skills" key={name}><small>{String(i+1).padStart(2,'0')}</small><div><h3>{name}</h3><p>{desc}</p></div><b>→</b></a>)}</div></div></section>
+
+      <section className="evidence"><div className="container evidence-grid"><div><div className="eyebrow">COMPETÊNCIA COM EVIDÊNCIA</div><h2>O que aprendeu importa.<br/><em>O que consegue fazer também.</em></h2><p>O SkillHub não termina quando acaba uma aula. O percurso termina quando existe evidência do que consegue aplicar.</p><a className="btn btn-primary" href="/skills">Começar a aprender</a></div><div className="evidence-list"><div><span>01</span><b>Exercícios reais</b><p>Trabalhos construídos para simular situações profissionais.</p></div><div><span>02</span><b>Feedback de mentor</b><p>Orientação humana sobre aquilo que produziu.</p></div><div><span>03</span><b>Certificação verificável</b><p>Um registo que pode ser consultado e validado online.</p></div></div></div></section>
+
+      <section className="section" id="empresas"><div className="container business"><div><div className="eyebrow">PARA EMPRESAS</div><h2>Desenvolva pessoas.<br/><em>Descubra competências.</em></h2><p>Crie desafios práticos, acompanhe desenvolvimento e encontre evidências de competências relevantes para a sua organização.</p><a className="btn btn-dark" href="/empresa">Conhecer solução para empresas →</a></div><div className="business-stats"><div><small>DESAFIOS PRÁTICOS</small><strong>24</strong><span>competências avaliadas</span></div><div><small>TALENTO</small><strong>86</strong><span>perfis com evidências</span></div></div></div></section>
+
+      <section className="final-cta"><div className="container"><div className="eyebrow">SKILLHUB BY ALINVEST</div><h2>Comece pela competência<br/>que quer desenvolver.</h2><p>Escolha uma skill, pratique e transforme aprendizagem em evidência profissional.</p><a className="btn btn-primary btn-large" href="/skills">Explorar skills →</a></div></section>
+    </main>
+
+    <footer><div className="container footer-grid"><div><a className="brand" href="/"><span className="brand-mark">S</span><span>Skill<span>Hub</span><small>by ALINVEST</small></span></a><p>Formação prática de competências profissionais em Moçambique.</p></div><div><b>Plataforma</b><a href="/skills">Skills</a><a href="#como-funciona">Como funciona</a><a href="/login">Entrar</a></div><div><b>Empresas</b><a href="/empresa">Solução para empresas</a><a href="/signup">Criar conta</a></div><div><b>ALINVEST</b><span>Moçambique</span><span>© 2026 ALINVEST</span></div></div></footer>
   </main>
-  <footer className="footer" id="sobre"><div className="container footer-inner"><div><div className="brand"><span>Skill</span>Hub <small>by ALINVEST</small></div><p>Formação prática de competências profissionais em Moçambique.</p></div><small>© 2026 ALINVEST · SkillHub</small></div></footer>
-</>}
+}
