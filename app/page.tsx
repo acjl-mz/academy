@@ -63,5 +63,5 @@ export default function Home(){
     </main>
 
     <footer><div className="container footer-grid"><div><a className="brand" href="/"><span className="brand-mark">S</span><span>Skill<span>Hub</span><small>by ALINVEST</small></span></a><p>Formação prática de competências profissionais em Moçambique.</p></div><div><b>Plataforma</b><a href="/skills">Skills</a><a href="#como-funciona">Como funciona</a><a href="/login">Entrar</a></div><div><b>Empresas</b><a href="/empresa">Solução para empresas</a><a href="/signup">Criar conta</a></div><div><b>ALINVEST</b><span>Moçambique</span><span>© 2026 ALINVEST</span></div></div></footer>
-  </main>
+    </main>
 }
