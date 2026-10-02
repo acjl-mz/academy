@@ -1,7 +1,7 @@
 import { ArrowRight, BarChart3, BriefcaseBusiness, Check, ChevronRight, CircleCheck, FileCheck2, Search, UsersRound } from "lucide-react";
 
-const categories=[
-["Excel & Dados","Dados, Excel, Power BI e análise",BarChart3],["Contabilidade","Registos, fecho e informação financeira",FileCheck2],["Fiscalidade","Gestão fiscal e cumprimento",CircleCheck],["Recursos Humanos","Pessoas, payroll e processos",UsersRound],["Gestão","Organização, processos e liderança",BriefcaseBusiness],["Marketing","Comunicação, estratégia e execução",ArrowRight],["Vendas","Processos e competências comerciais",ArrowRight],["Finanças","Análise e decisão financeira",BarChart3],
+const categories: {name:string; description:string; icon: typeof BarChart3}[]=[
+{name:"Excel & Dados",description:"Dados, Excel, Power BI e análise",icon:BarChart3},{name:"Contabilidade",description:"Registos, fecho e informação financeira",icon:FileCheck2},{name:"Fiscalidade",description:"Gestão fiscal e cumprimento",icon:CircleCheck},{name:"Recursos Humanos",description:"Pessoas, payroll e processos",icon:UsersRound},{name:"Gestão",description:"Organização, processos e liderança",icon:BriefcaseBusiness},{name:"Marketing",description:"Comunicação, estratégia e execução",icon:ArrowRight},{name:"Vendas",description:"Processos e competências comerciais",icon:ArrowRight},{name:"Finanças",description:"Análise e decisão financeira",icon:BarChart3},
 ];
 const skills=[
 {code:"EX",slug:"excel-gestao-financeira",title:"Excel para Gestão Financeira",category:"Finanças",level:"Intermédio",duration:"6 semanas",price:"1 500 MT",mentor:"Ana Mucavele",description:"Transforme dados financeiros em informação útil para acompanhar resultados e decisões."},
@@ -9,10 +9,10 @@ const skills=[
 {code:"CT",slug:"contabilidade-pequenas-empresas",title:"Contabilidade para Pequenas Empresas",category:"Contabilidade",level:"Fundamentos",duration:"5 semanas",price:"1 300 MT",mentor:"Marta Cossa",description:"Construa uma visão prática da contabilidade e da informação financeira do negócio."},
 {code:"BI",slug:"power-bi-decisao",title:"Power BI para Decisão",category:"Excel & Dados",level:"Intermédio",duration:"6 semanas",price:"1 800 MT",mentor:"Edson Matavele",description:"Passe de dados dispersos para indicadores e dashboards que apoiam decisões."},
 ];
-const tracks=[
-["01","Finanças e Contabilidade","Da organização da informação à análise que apoia a decisão.",["Excel para Gestão Financeira","Contabilidade para Pequenas Empresas"]],
-["02","Pessoas e Operações","Competências práticas para gerir pessoas, rotinas e processos.",["Processamento de Salários","Gestão de Equipas"]],
-["03","Dados e Decisão","Transforme dados de trabalho em informação que pode usar.",["Power BI para Decisão","Excel & Dados"]],
+const tracks: {number:string; title:string; description:string; skills:string[]}[]=[
+{number:"01",title:"Finanças e Contabilidade",description:"Da organização da informação à análise que apoia a decisão.",skills:["Excel para Gestão Financeira","Contabilidade para Pequenas Empresas"]},
+{number:"02",title:"Pessoas e Operações",description:"Competências práticas para gerir pessoas, rotinas e processos.",skills:["Processamento de Salários","Gestão de Equipas"]},
+{number:"03",title:"Dados e Decisão",description:"Transforme dados de trabalho em informação que pode usar.",skills:["Power BI para Decisão","Excel & Dados"]},
 ];
 function Brand(){return <span className="brand"><span className="brand-mark">S</span><span className="brand-copy">Skill<span>Hub</span><small>by ALINVEST</small></span></span>}
 
@@ -51,10 +51,10 @@ return <div className="site-shell">
 <div className="skill-grid">{skills.map((s,i)=><a className="skill-card-modern" href={`/skills/${s.slug}`} key={s.slug}><div className={"skill-visual skill-visual-"+(i+1)}><span>{s.code}</span><small>{s.category}</small></div><div className="skill-card-content"><div className="skill-meta"><span>{s.level}</span><i/><span>{s.duration}</span></div><h3>{s.title}</h3><p>{s.description}</p><div className="skill-card-bottom"><div className="mentor"><span className="avatar">{s.mentor.charAt(0)}</span><span>Com {s.mentor}</span></div><strong>{s.price}</strong></div></div></a>)}</div></div></section>
 
 <section className="section" id="percursos"><div className="container"><div className="section-heading section-heading-row"><div><div className="eyebrow">PERCURSOS PROFISSIONAIS</div><h2>Comece pela área. Desenvolva o conjunto.</h2></div><a className="outline-link" href="/skills">Explorar percursos <ArrowRight size={15}/></a></div>
-<div className="track-grid">{tracks.map(t=><a className="track-card" href="/skills" key={t[0]}><span className="track-number">{t[0]}</span><h3>{t[1]}</h3><p>{t[2]}</p><div className="track-skills">{t[3].map(x=><span key={x}>{x}</span>)}</div><span className="track-link">Explorar percurso <ArrowRight size={15}/></span></a>)}</div></div></section>
+<div className="track-grid">{tracks.map(t=><a className="track-card" href="/skills" key={t.number}><span className="track-number">{t.number}</span><h3>{t.title}</h3><p>{t.description}</p><div className="track-skills">{t.skills.map(x=><span key={x}>{x}</span>)}</div><span className="track-link">Explorar percurso <ArrowRight size={15}/></span></a>)}</div></div></section>
 
 <section className="section section-soft categories-section"><div className="container"><div className="section-heading"><div className="eyebrow">EXPLORE POR ÁREA</div><h2>O que quer desenvolver hoje?</h2></div>
-<div className="category-grid">{categories.map(([name,desc,Icon])=><a href="/skills" className="category-item" key={name}><span className="category-icon"><Icon size={18}/></span><span className="category-copy"><strong>{name}</strong><small>{desc}</small></span><ArrowRight size={16}/></a>)}</div></div></section>
+<div className="category-grid">{categories.map(({name,description,icon:Icon})=><a href="/skills" className="category-item" key={name}><span className="category-icon"><Icon size={18}/></span><span className="category-copy"><strong>{name}</strong><small>{description}</small></span><ArrowRight size={16}/></a>)}</div></div></section>
 
 <section className="section evidence-section"><div className="container evidence-layout"><div><div className="eyebrow eyebrow-blue">APRENDIZAGEM COM EVIDÊNCIA</div><h2>Não basta saber.<br/><span>É preciso conseguir demonstrar.</span></h2><p>O percurso do SkillHub foi pensado para ligar aprendizagem e aplicação: exercícios práticos, feedback humano e certificação verificável.</p><a className="button button-primary" href="/skills">Começar a aprender <ArrowRight size={16}/></a></div>
 <div className="evidence-list"><div><span>01</span><div><strong>Exercícios práticos</strong><p>Tarefas baseadas em situações que podem acontecer no trabalho.</p></div></div><div><span>02</span><div><strong>Feedback de mentor</strong><p>Orientação sobre aquilo que produziu, não apenas sobre o que assistiu.</p></div></div><div><span>03</span><div><strong>Certificação verificável</strong><p>Um certificado associado a um percurso e consultável online.</p></div></div></div></div></section>
