@@ -1,3 +1,5 @@
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 import { ArrowRight, BarChart3, BriefcaseBusiness, CalendarDays, Check, ChevronRight, CircleCheck, FileCheck2, Search, Sparkles, UsersRound } from "lucide-react";
 
 const categories: {name:string; description:string; icon: typeof BarChart3}[] = [
@@ -33,15 +35,7 @@ const events = [
 function Brand(){return <span className="brand"><span className="brand-mark">S</span><span className="brand-copy">Skill<span>Hub</span><small>by ALINVEST</small></span></span>}
 
 export default function Home(){
-return <div className="site-shell">
-<header className="topbar"><div className="container topbar-inner">
-<a href="/" aria-label="SkillHub by ALINVEST"><Brand/></a>
-<nav className="main-nav"><a href="/skills">Explorar</a><a href="/percursos">Percursos</a><a href="/eventos">Eventos</a><a href="/empresa">Para empresas</a></nav>
-<details className="mobile-menu"><summary aria-label="Abrir menu"><span></span><span></span><span></span></summary><div className="mobile-menu-panel"><a href="/skills">Explorar</a><a href="#percursos">Percursos</a><a href="#eventos">Eventos</a><a href="#empresas">Para empresas</a></div></details>
-<div className="header-search"><Search size={16}/><input aria-label="Pesquisar" placeholder="Pesquisar competências..."/></div>
-<div className="header-actions"><a className="login-link" href="/login">Entrar</a><a className="button button-primary button-small" href="/signup">Criar conta</a></div>
-</div></header>
-
+return <div className="site-shell"><SiteHeader/>
 <main>
 <section className="hero-billboard"><div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/><div className="container hero-grid">
 <div className="hero-copy">
@@ -92,7 +86,6 @@ return <div className="site-shell">
 
 <section className="final-section"><div className="container final-inner"><div className="final-mark">SH</div><div className="eyebrow eyebrow-green">SKILLHUB BY ALINVEST</div><h2>A próxima competência<br/><span>começa aqui.</span></h2><p>Aprenda. Pratique. Receba feedback. Demonstre o que sabe fazer.</p><a className="button button-primary button-large" href="/skills">Explorar skills <ArrowRight size={17}/></a></div></section>
 </main>
-
-<footer className="footer"><div className="container footer-grid"><div className="footer-brand"><a href="/"><Brand/></a><p>Formação prática de competências profissionais em Moçambique.</p></div><div><strong>Plataforma</strong><a href="/skills">Explorar skills</a><a href="#percursos">Percursos</a><a href="#eventos">Eventos</a></div><div><strong>Empresas</strong><a href="/empresa">Solução para empresas</a><a href="/signup">Criar conta</a></div><div><strong>ALINVEST</strong><span>Moçambique</span><span>© 2026 ALINVEST</span></div></div></footer>
+<SiteFooter/>
 </div>
 }
