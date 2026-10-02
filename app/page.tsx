@@ -45,7 +45,6 @@ return <div className="site-shell">
 <main>
 <section className="hero-billboard"><div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/><div className="container hero-grid">
 <div className="hero-copy">
-<div className="hero-location">MOÇAMBIQUE</div>
 <h1>Competências que se transformam em <span>resultado.</span></h1>
 <p>Aprenda competências profissionais de forma prática, aplique em exercícios reais, receba orientação e construa evidências daquilo que sabe fazer.</p>
 <div className="hero-actions"><a className="button button-primary button-large" href="/skills">Explorar competências <ArrowRight size={17}/></a><a className="text-link" href="#como-funciona">Como funciona <ChevronRight size={15}/></a></div>
