@@ -36,7 +36,7 @@ export default function Home(){
 return <div className="site-shell">
 <header className="topbar"><div className="container topbar-inner">
 <a href="/" aria-label="SkillHub by ALINVEST"><Brand/></a>
-<nav className="main-nav"><a href="/skills">Explorar</a><a href="#percursos">Percursos</a><a href="#eventos">Eventos</a><a href="#empresas">Para empresas</a></nav>
+<nav className="main-nav"><a href="/skills">Explorar</a><a href="/percursos">Percursos</a><a href="/eventos">Eventos</a><a href="/empresa">Para empresas</a></nav>
 <details className="mobile-menu"><summary aria-label="Abrir menu"><span></span><span></span><span></span></summary><div className="mobile-menu-panel"><a href="/skills">Explorar</a><a href="#percursos">Percursos</a><a href="#eventos">Eventos</a><a href="#empresas">Para empresas</a></div></details>
 <div className="header-search"><Search size={16}/><input aria-label="Pesquisar" placeholder="Pesquisar competências..."/></div>
 <div className="header-actions"><a className="login-link" href="/login">Entrar</a><a className="button button-primary button-small" href="/signup">Criar conta</a></div>
