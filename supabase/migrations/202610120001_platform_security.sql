@@ -12,6 +12,21 @@ $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();
 
+create or replace function public.protect_profile_privileges()
+returns trigger language plpgsql set search_path = public
+as $
+begin
+  if auth.role() <> 'service_role' then
+    new.role := old.role;
+    new.skill_score := old.skill_score;
+  end if;
+  return new;
+end;
+$;
+drop trigger if exists protect_profile_privileges_before_update on public.profiles;
+create trigger protect_profile_privileges_before_update before update on public.profiles
+for each row execute procedure public.protect_profile_privileges();
+
 alter table public.profiles enable row level security;
 alter table public.categories enable row level security;
 alter table public.skills enable row level security;
@@ -29,7 +44,7 @@ create policy "Public can read categories" on public.categories for select using
 drop policy if exists "Public can read published skills" on public.skills;
 create policy "Public can read published skills" on public.skills for select using (status = 'published');
 drop policy if exists "Authenticated users can read exercises" on public.exercises;
-create policy "Authenticated users can read exercises" on public.exercises for select to authenticated using (true);
+create policy "Enrolled participants can read exercises" on public.exercises for select to authenticated using (exists (select 1 from public.skills sk join public.enrollments e on e.skill_id = sk.id where sk.id = exercises.skill_id and sk.status = 'published' and e.user_id = (select auth.uid())));
 
 drop policy if exists "Participants read own profile" on public.profiles;
 create policy "Participants read own profile" on public.profiles for select to authenticated using (id = (select auth.uid()));
@@ -41,7 +56,6 @@ create policy "Participants read own enrollments" on public.enrollments for sele
 drop policy if exists "Participants create own enrollments" on public.enrollments;
 create policy "Participants create own enrollments" on public.enrollments for insert to authenticated with check (user_id = (select auth.uid()));
 drop policy if exists "Participants update own enrollments" on public.enrollments;
-create policy "Participants update own enrollments" on public.enrollments for update to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
 drop policy if exists "Participants read own submissions" on public.submissions;
 create policy "Participants read own submissions" on public.submissions for select to authenticated using (user_id = (select auth.uid()));
