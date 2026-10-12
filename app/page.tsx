@@ -1,5 +1,6 @@
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import { skills as catalogSkills } from "@/lib/data";
 import { ArrowRight, BarChart3, BriefcaseBusiness, CalendarDays, Check, ChevronRight, CircleCheck, FileCheck2, Search, Sparkles, UsersRound } from "lucide-react";
 
 const categories: {name:string; description:string; icon: typeof BarChart3}[] = [
@@ -13,12 +14,7 @@ const categories: {name:string; description:string; icon: typeof BarChart3}[] = 
   {name:"Finanças",description:"Análise e decisão financeira",icon:BarChart3},
 ];
 
-const skills = [
-  {code:"EX",slug:"excel-gestao-financeira",title:"Excel para Gestão Financeira",category:"Finanças",level:"Intermédio",duration:"6 semanas",price:"1 500 MT",mentor:"Ana Mucavele",description:"Transforme dados financeiros em informação útil para acompanhar resultados e decisões."},
-  {code:"RH",slug:"processamento-salarios",title:"Processamento de Salários",category:"Recursos Humanos",level:"Prático",duration:"4 semanas",price:"1 200 MT",mentor:"Carlos Nhantumbo",description:"Pratique um processo completo de payroll através de situações empresariais reais."},
-  {code:"CT",slug:"contabilidade-pequenas-empresas",title:"Contabilidade para Pequenas Empresas",category:"Contabilidade",level:"Fundamentos",duration:"5 semanas",price:"1 300 MT",mentor:"Marta Cossa",description:"Construa uma visão prática da contabilidade e da informação financeira do negócio."},
-  {code:"BI",slug:"power-bi-decisao",title:"Power BI para Decisão",category:"Excel & Dados",level:"Intermédio",duration:"6 semanas",price:"1 800 MT",mentor:"Edson Matavele",description:"Passe de dados dispersos para indicadores e dashboards que apoiam decisões."},
-];
+const skills = catalogSkills.map((skill,index)=>({...skill,code:["EX","RH","CT","BI","FX","MK"][index]??"SK"}));
 
 const tracks: {number:string; title:string; description:string; skills:string[]}[] = [
   {number:"01",title:"Finanças e Contabilidade",description:"Da organização da informação à análise que apoia a decisão.",skills:["Excel para Gestão Financeira","Contabilidade para Pequenas Empresas"]},
@@ -42,7 +38,7 @@ return <div className="site-shell"><SiteHeader/>
 <h1>Competências que se transformam em <span>resultado.</span></h1>
 <p>Aprenda competências profissionais de forma prática, aplique em exercícios reais, receba orientação e construa evidências daquilo que sabe fazer.</p>
 <div className="hero-actions"><a className="button button-primary button-large" href="/skills">Explorar competências <ArrowRight size={17}/></a><a className="text-link" href="#como-funciona">Como funciona <ChevronRight size={15}/></a></div>
-<div className="hero-search"><Search size={19}/><input aria-label="Pesquisar competências" placeholder="O que quer aprender hoje?"/><a className="button button-dark" href="/skills">Pesquisar</a></div>
+<form className="hero-search" action="/skills" method="get"><Search size={19}/><input name="q" aria-label="Pesquisar competências" placeholder="O que quer aprender hoje?"/><button className="button button-dark" type="submit">Pesquisar</button></form>
 </div>
 <div className="event-billboard">
 <div className="billboard-glow"/>
@@ -71,7 +67,7 @@ return <div className="site-shell"><SiteHeader/>
 </div></div></section>
 
 <section className="section" id="percursos"><div className="container"><div className="section-heading section-heading-row"><div><div className="eyebrow">PERCURSOS PROFISSIONAIS</div><h2>Desenvolva o conjunto,<br/><span>não apenas uma skill.</span></h2></div><a className="outline-link" href="/skills">Explorar percursos <ArrowRight size={15}/></a></div>
-<div className="track-grid">{tracks.map(t=><a className="track-card" href="/skills" key={t.number}><span className="track-number">{t.number}</span><h3>{t.title}</h3><p>{t.description}</p><div className="track-skills">{t.skills.map(x=><span key={x}>{x}</span>)}</div><span className="track-link">Explorar percurso <ArrowRight size={15}/></span></a>)}</div></div></section>
+<div className="track-grid">{tracks.map(t=><a className="track-card" href="/percursos" key={t.number}><span className="track-number">{t.number}</span><h3>{t.title}</h3><p>{t.description}</p><div className="track-skills">{t.skills.map(x=><span key={x}>{x}</span>)}</div><span className="track-link">Explorar percurso <ArrowRight size={15}/></span></a>)}</div></div></section>
 
 <section className="section area-section section-soft"><div className="container area-layout"><div className="area-intro"><div className="eyebrow">EXPLORE POR ÁREA</div><h2>Encontre o próximo<br/><span>passo.</span></h2><p>Competências organizadas por áreas de trabalho para tornar a descoberta mais simples.</p><a className="text-link green-link" href="/skills">Ver todas as áreas <ArrowRight size={15}/></a></div><div className="area-list">{categories.map(({name,description,icon:Icon},i)=><a href="/skills" className="area-item" key={name}><span className="area-number">{String(i+1).padStart(2,"0")}</span><span className="category-icon"><Icon size={17}/></span><span className="category-copy"><strong>{name}</strong><small>{description}</small></span><ArrowRight size={16}/></a>)}</div></div></section>
 
