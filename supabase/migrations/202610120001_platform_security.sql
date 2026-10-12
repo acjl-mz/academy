@@ -14,15 +14,14 @@ create trigger on_auth_user_created after insert on auth.users for each row exec
 
 create or replace function public.protect_profile_privileges()
 returns trigger language plpgsql set search_path = public
-as $
-begin
+as $function$1begin
   if coalesce(auth.role(), '') <> 'service_role' then
     new.role := old.role;
     new.skill_score := old.skill_score;
   end if;
   return new;
 end;
-$;
+$function$;
 drop trigger if exists protect_profile_privileges_before_update on public.profiles;
 create trigger protect_profile_privileges_before_update before update on public.profiles
 for each row execute procedure public.protect_profile_privileges();
@@ -70,14 +69,13 @@ drop policy if exists "Public verify issued certificates" on public.certificates
 create or replace function public.verify_certificate(p_code text)
 returns table (verification_code text, status text, issued_at timestamptz, skill_title text, is_valid boolean)
 language sql stable security definer set search_path = public
-as $
-  select c.verification_code, c.status, c.issued_at, s.title,
+as $function$1  select c.verification_code, c.status, c.issued_at, s.title,
     (lower(c.status) in ('issued','valid','active','concluido','concluído')) as is_valid
   from public.certificates c
   left join public.skills s on s.id = c.skill_id
   where upper(c.verification_code) = upper(trim(p_code))
   limit 1;
-$;
+$function$;
 revoke all on function public.verify_certificate(text) from public;
 grant execute on function public.verify_certificate(text) to anon, authenticated;
 
