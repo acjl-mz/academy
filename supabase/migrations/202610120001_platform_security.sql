@@ -53,7 +53,19 @@ create policy "Participants update own submissions" on public.submissions for up
 drop policy if exists "Participants read own certificates" on public.certificates;
 create policy "Participants read own certificates" on public.certificates for select to authenticated using (user_id = (select auth.uid()));
 drop policy if exists "Public verify issued certificates" on public.certificates;
-create policy "Public verify issued certificates" on public.certificates for select to anon, authenticated using (status in ('issued','valid','active','concluido','concluído'));
+create or replace function public.verify_certificate(p_code text)
+returns table (verification_code text, status text, issued_at timestamptz, skill_title text, is_valid boolean)
+language sql stable security definer set search_path = public
+as $
+  select c.verification_code, c.status, c.issued_at, s.title,
+    (lower(c.status) in ('issued','valid','active','concluido','concluído')) as is_valid
+  from public.certificates c
+  left join public.skills s on s.id = c.skill_id
+  where upper(c.verification_code) = upper(trim(p_code))
+  limit 1;
+$;
+revoke all on function public.verify_certificate(text) from public;
+grant execute on function public.verify_certificate(text) to anon, authenticated;
 
 drop policy if exists "Participants read own notifications" on public.notifications;
 create policy "Participants read own notifications" on public.notifications for select to authenticated using (user_id = (select auth.uid()));
