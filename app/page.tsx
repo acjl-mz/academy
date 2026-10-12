@@ -1,5 +1,6 @@
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import Link from "next/link";
 import { skills as catalogSkills } from "@/lib/data";
 import { ArrowRight, BarChart3, BriefcaseBusiness, CalendarDays, Check, ChevronRight, CircleCheck, FileCheck2, Search, Sparkles, UsersRound } from "lucide-react";
 
@@ -37,7 +38,7 @@ return <div className="site-shell"><SiteHeader/>
 <div className="hero-copy">
 <h1>Competências que se transformam em <span>resultado.</span></h1>
 <p>Aprenda competências profissionais de forma prática, aplique em exercícios reais, receba orientação e construa evidências daquilo que sabe fazer.</p>
-<div className="hero-actions"><a className="button button-primary button-large" href="/skills">Explorar competências <ArrowRight size={17}/></a><a className="text-link" href="#como-funciona">Como funciona <ChevronRight size={15}/></a></div>
+<div className="hero-actions"><Link className="button button-primary button-large" href="/skills">Explorar competências <ArrowRight size={17}/></Link><a className="text-link" href="#como-funciona">Como funciona <ChevronRight size={15}/></a></div>
 <form className="hero-search" action="/skills" method="get"><Search size={19}/><input name="q" aria-label="Pesquisar competências" placeholder="O que quer aprender hoje?"/><button className="button button-dark" type="submit">Pesquisar</button></form>
 </div>
 <div className="event-billboard">
