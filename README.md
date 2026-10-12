@@ -3,7 +3,7 @@
 Plataforma moçambicana de formação prática de competências profissionais, com aprendizagem orientada a exercícios, acompanhamento de progresso e certificação verificável.
 
 ## Stack
-- Next.js 15 App Router + React 19 + TypeScript
+- Next.js 16 App Router + React 19 + TypeScript
 - Tailwind CSS 4 via PostCSS
 - Supabase Auth, PostgreSQL e políticas de Row Level Security (RLS)
 - Interface responsiva em português de Moçambique
@@ -20,7 +20,7 @@ Plataforma moçambicana de formação prática de competências profissionais, c
 - `npm run typecheck`: verificação TypeScript.
 - `npm run lint`: análise estática com ESLint.
 - `npm run build`: build de produção.
-- O workflow GitHub Actions em `.github/workflows/quality.yml` executa estas verificações em pull requests e em alterações à branch principal.
+- O workflow GitHub Actions em `.github/workflows/quality.yml` executa estas verificações em pull requests e em alterações à branch principal. O relatório de auditoria de dependências também é publicado nos logs do CI.
 
 ## Supabase
 Antes de activar os fluxos de autenticação e inscrição:
