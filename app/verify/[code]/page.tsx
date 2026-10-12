@@ -1,6 +1,18 @@
-import Link from 'next/link';
-
-export default async function VerifyPage({ params }: { params: Promise<{ code: string }> }) {
-  const { code } = await params;
-  return <main className="verify-page"><div className="verify-card"><div className="verify-badge">✓</div><span className="eyebrow">SKILLHUB · CERTIFICAÇÃO VERIFICÁVEL</span><h1>Certificado válido</h1><p>Este código corresponde a um certificado emitido pela plataforma SkillHub by ALINVEST.</p><div className="verify-code"><span>CÓDIGO DE VERIFICAÇÃO</span><strong>{code.toUpperCase()}</strong></div><div className="verify-person"><span>Participante</span><strong>Utilizador SkillHub</strong><span>Competência</span><strong>Gestão Fiscal na Prática</strong><span>Estado</span><strong className="valid">Concluído e aprovado</strong></div><Link href="/" className="btn btn-primary">Conhecer o SkillHub</Link></div></main>;
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+type VerificationRow={verification_code:string;status:string;issued_at:string|null;skill_title:string|null;is_valid:boolean};
+function certificateStatus(status:string){const labels:Record<string,string>={issued:"Emitido",valid:"Válido",active:"Activo",revoked:"Revogado",pending:"Pendente",concluido:"Concluído","concluído":"Concluído"};return labels[status.toLowerCase()]||status}
+export default async function VerifyPage({params}:{params:Promise<{code:string}>}) {
+ const {code}=await params;
+ let data:VerificationRow|null=null; let verificationError:unknown=null;
+ if(process.env.NEXT_PUBLIC_SUPABASE_URL&&process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY){
+  const supabase=await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const db=supabase as any;
+  const {data:result,error}=await db.rpc("verify_certificate",{p_code:code});
+  data=(Array.isArray(result)?result[0]:result) as VerificationRow|null;verificationError=error;
+ }
+ const certificate=data && !verificationError && data.is_valid===true ? data : null;
+ const valid=!!certificate;
+ return <main className="verify-page"><div className="verify-card"><div className={valid?"verify-badge":"verify-badge verify-badge-invalid"}>{valid?"✓":"!"}</div><span className="eyebrow">SKILLHUB · CERTIFICAÇÃO VERIFICÁVEL</span><h1>{valid?"Certificado encontrado":"Certificado não verificado"}</h1><p>{valid?"O código corresponde a um registo de certificado na plataforma.":"Não foi possível confirmar um certificado válido com este código. Verifique o código ou contacte a equipa SkillHub."}</p><div className="verify-code"><span>CÓDIGO DE VERIFICAÇÃO</span><strong>{code}</strong></div>{certificate&&<div className="verify-person"><span>Competência</span><strong>{certificate.skill_title||"Competência SkillHub"}</strong><span>Estado registado</span><strong className="valid">{certificateStatus(certificate.status)}</strong>{certificate.issued_at&&<><span>Data de emissão</span><strong>{new Date(certificate.issued_at).toLocaleDateString("pt-MZ")}</strong></>}</div>}<Link href="/" className="btn btn-primary">Conhecer o SkillHub</Link></div></main>;
 }
