@@ -16,7 +16,7 @@ create or replace function public.protect_profile_privileges()
 returns trigger language plpgsql set search_path = public
 as $
 begin
-  if auth.role() <> 'service_role' then
+  if coalesce(auth.role(), '') <> 'service_role' then
     new.role := old.role;
     new.skill_score := old.skill_score;
   end if;
@@ -93,3 +93,30 @@ create policy "Companies manage own challenges" on public.challenges for all to 
 
 drop policy if exists "Participants read reviews of own submissions" on public.reviews;
 create policy "Participants read reviews of own submissions" on public.reviews for select to authenticated using (exists (select 1 from public.submissions s where s.id = submission_id and s.user_id = (select auth.uid())));
+
+
+-- Seed the initial catalogue so enrolment references real database records.
+insert into public.categories (name, slug) values
+  ('Finanças', 'financas'),
+  ('Recursos Humanos', 'recursos-humanos'),
+  ('Contabilidade', 'contabilidade'),
+  ('Excel & Dados', 'excel-dados'),
+  ('Fiscalidade', 'fiscalidade'),
+  ('Marketing', 'marketing')
+on conflict (slug) do update set name = excluded.name;
+
+insert into public.skills (slug, title, category_id, level, duration_weeks, price_mzn, mentor_id, description, outcomes, status)
+select v.slug, v.title, c.id, v.level, v.duration_weeks, v.price_mzn, null, v.description, v.outcomes::jsonb, 'published'
+from (values
+  ('excel-gestao-financeira','Excel para Gestão Financeira','Finanças', 'Intermédio',6,1500,'Aprenda a transformar dados financeiros em informação útil para acompanhar resultados, custos e decisões.','["Modelar mapas financeiros","Criar indicadores de gestão","Construir análises e dashboards"]'),
+  ('processamento-salarios','Processamento de Salários','Recursos Humanos','Prático',4,1200,'Domine um processo completo de payroll através de exercícios baseados em situações empresariais reais.','["Organizar dados de colaboradores","Processar remunerações","Preparar mapas e conferências"]'),
+  ('contabilidade-pequenas-empresas','Contabilidade para Pequenas Empresas','Contabilidade','Fundamentos',5,1300,'Construa uma visão prática da contabilidade e use a informação financeira para apoiar o negócio.','["Registar operações","Reconhecer documentos","Interpretar resultados"]'),
+  ('power-bi-decisao','Power BI para Decisão','Excel & Dados','Intermédio',6,1800,'Passe de tabelas dispersas para indicadores claros e painéis que apoiam decisões.','["Preparar dados","Criar métricas","Construir dashboards"]'),
+  ('gestao-fiscal-pratica','Gestão Fiscal na Prática','Fiscalidade','Prático',4,1500,'Trabalhe situações fiscais através de casos e exercícios que aproximam a aprendizagem da rotina profissional.','["Organizar obrigações","Analisar situações fiscais","Documentar procedimentos"]'),
+  ('marketing-digital-negocios','Marketing Digital para Negócios','Marketing','Intermédio',5,1400,'Planeie e execute ações digitais com foco em objetivos comerciais e medição de resultados.','["Definir públicos","Criar campanhas","Medir resultados"]')
+) as v(slug,title,category,level,duration_weeks,price_mzn,description,outcomes)
+join public.categories c on c.name = v.category
+on conflict (slug) do update set
+  title = excluded.title, category_id = excluded.category_id, level = excluded.level,
+  duration_weeks = excluded.duration_weeks, price_mzn = excluded.price_mzn,
+  description = excluded.description, outcomes = excluded.outcomes, status = 'published';
