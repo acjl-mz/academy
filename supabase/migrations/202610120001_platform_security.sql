@@ -14,7 +14,8 @@ create trigger on_auth_user_created after insert on auth.users for each row exec
 
 create or replace function public.protect_profile_privileges()
 returns trigger language plpgsql set search_path = public
-as $function$1begin
+as $function$
+begin
   if coalesce(auth.role(), '') <> 'service_role' then
     new.role := old.role;
     new.skill_score := old.skill_score;
