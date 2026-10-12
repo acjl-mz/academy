@@ -44,7 +44,8 @@ export default function AuthForm({ mode }: Props) {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) throw error;
-        router.replace("/dashboard");
+        const requested = new URLSearchParams(window.location.search).get("next");
+        router.replace(requested?.startsWith("/") && !requested.startsWith("//") ? requested : "/dashboard");
         router.refresh();
       }
     } catch (error) {
