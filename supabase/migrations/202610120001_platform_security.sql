@@ -62,7 +62,6 @@ create policy "Participants read own submissions" on public.submissions for sele
 drop policy if exists "Participants create own submissions" on public.submissions;
 create policy "Participants create own submissions" on public.submissions for insert to authenticated with check (user_id = (select auth.uid()));
 drop policy if exists "Participants update own submissions" on public.submissions;
-create policy "Participants update own submissions" on public.submissions for update to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
 drop policy if exists "Participants read own certificates" on public.certificates;
 create policy "Participants read own certificates" on public.certificates for select to authenticated using (user_id = (select auth.uid()));
@@ -84,7 +83,6 @@ grant execute on function public.verify_certificate(text) to anon, authenticated
 drop policy if exists "Participants read own notifications" on public.notifications;
 create policy "Participants read own notifications" on public.notifications for select to authenticated using (user_id = (select auth.uid()));
 drop policy if exists "Participants update own notifications" on public.notifications;
-create policy "Participants update own notifications" on public.notifications for update to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 
 drop policy if exists "Companies read own company records" on public.companies;
 create policy "Companies read own company records" on public.companies for select to authenticated using (profile_id = (select auth.uid()));
