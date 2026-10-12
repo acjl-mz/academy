@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+type EnrollmentRow={id:string;status:string;progress:number|null;skills:{title:string;slug:string;level:string}|{title:string;slug:string;level:string}[]|null};
 function statusLabel(status:string){const labels:Record<string,string>={in_progress:"Em progresso",active:"Activo",completed:"Concluído",pending:"Pendente",submitted:"Submetido",reviewed:"Avaliado"};return labels[status]||status}
 export default async function DashboardPage(){
  const supabase=await createClient();
  const {data:{user}}=await supabase.auth.getUser();
  if(!user) redirect("/login?next=%2Fdashboard");
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
  const db=supabase as any;
  const {data:profile}=await db.from("profiles").select("full_name,skill_score").eq("id",user.id).maybeSingle();
  const {data:enrollments}=await db.from("enrollments").select("id,status,progress,skills(title,slug,level,categories(name))").eq("user_id",user.id).order("enrolled_at",{ascending:false});
  const {count:certificateCount}=await db.from("certificates").select("id",{count:"exact",head:true}).eq("user_id",user.id);
- const items:any[]=enrollments||[];
+ const items:EnrollmentRow[]=(enrollments||[]) as EnrollmentRow[];
  const firstName=(profile?.full_name||user.user_metadata?.full_name||user.email||"Participante").split(" ")[0];
  const inProgress=items.filter(item=>item.status!=="completed"&&(item.progress||0)<100);
  const completed=items.filter(item=>item.status==="completed"||(item.progress||0)>=100);
