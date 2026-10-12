@@ -70,7 +70,8 @@ drop policy if exists "Public verify issued certificates" on public.certificates
 create or replace function public.verify_certificate(p_code text)
 returns table (verification_code text, status text, issued_at timestamptz, skill_title text, is_valid boolean)
 language sql stable security definer set search_path = public
-as $function$1  select c.verification_code, c.status, c.issued_at, s.title,
+as $function$
+  select c.verification_code, c.status, c.issued_at, s.title,
     (lower(c.status) in ('issued','valid','active','concluido','concluído')) as is_valid
   from public.certificates c
   left join public.skills s on s.id = c.skill_id
