@@ -6,6 +6,15 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Props = { mode: "login" | "signup" };
+function friendlyAuthError(message: string) {
+  const value = message.toLowerCase();
+  if (value.includes("invalid login credentials")) return "Email ou palavra-passe incorrectos.";
+  if (value.includes("email not confirmed")) return "Confirme o seu email antes de iniciar sessão.";
+  if (value.includes("user already registered")) return "Já existe uma conta com este email. Experimente iniciar sessão.";
+  if (value.includes("password should be at least")) return "A palavra-passe deve ter pelo menos 8 caracteres.";
+  if (value.includes("rate limit")) return "Foram feitas demasiadas tentativas. Aguarde um pouco e tente novamente.";
+  return "Não foi possível concluir a operação. Confirme os dados e tente novamente.";
+}
 
 export default function AuthForm({ mode }: Props) {
   const router = useRouter();
@@ -49,7 +58,7 @@ export default function AuthForm({ mode }: Props) {
         router.refresh();
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Não foi possível concluir a operação. Tente novamente.");
+      setMessage(error instanceof Error ? friendlyAuthError(error.message) : "Não foi possível concluir a operação. Tente novamente.");
     } finally {
       setBusy(false);
     }
